@@ -18,16 +18,6 @@ let pageNumber = 1;
 let shipsNumber = 1
 
 
-// spinner function
-
-function toggleSpinner(showSpinner){
-    if(showSpinner){
-        spinner.style.display = "block"
-    } else{
-        spinner.style.display = "none"
-    }
-}
-
 
 
 
@@ -89,10 +79,10 @@ async function getShipsApi(shipsNumber) {
     <div class="row white padding">
              <div class="col">${ships[i].name}</div>
              <div class="col">${ships[i].model}</div>
-             <div class="col">${ships[i].length}</div>
-             <div class="col">${ships[i].crew}</div>
+             <div class="col">${ships[i].manufacturer}</div>
+             <div class="col">${ships[i].cost_in_credits}</div>
              <div class="col">${ships[i].cargo_capacity}</div>
-             <div class="col">${ships[i].passengers}</div>
+             <div class="col">${ships[i].starship_class}</div>
          </div>
      `;
 
