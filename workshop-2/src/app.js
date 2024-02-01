@@ -11,15 +11,28 @@ const tableShips = document.querySelector('#result-ships')
 const resultPeople = document.querySelector('#result')
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
-const loader = document.getElementById("loader");
+const spinner = document.getElementById("loader");
 const shipsNextBtn = document.querySelector('#nextBtn-ships');
 const shipsPrevBtn = document.querySelector('#prevBtn-ships')
 let pageNumber = 1;
 let shipsNumber = 1
 
 
+// spinner function
+
+function toggleSpinner(showSpinner){
+    if(showSpinner){
+        spinner.style.display = "block"
+    } else{
+        spinner.style.display = "none"
+    }
+}
 
 
+
+
+
+// Function get api for people
     async function getAllPosts(pageNumber) {
         const response = await fetch(`https://swapi.dev/api/people/?page=${pageNumber}`);
         const data = await response.json();
@@ -56,7 +69,7 @@ let shipsNumber = 1
 
     nextBtn.style.display = "block";
 }
-// Ships function
+//Function get api for ships
 
 async function getShipsApi(shipsNumber) {
     const response = await fetch(`https://swapi.dev/api/starships/?page=${shipsNumber}`);
@@ -95,37 +108,44 @@ if (shipsNumber === 1) {
 shipsNextBtn.style.display = "block";
 }
 
+// ==Events
 
-//People events
+//People button event
 peopleBtn.addEventListener('click', ()=>{
     result.style.display = "block";
     resultPeople.style.display="block"
     tableShips.style.display = "none";
     getAllPosts(1)
-
 })
 
+// next button for people api
 nextBtn.addEventListener('click', () => {
     pageNumber++;
     getAllPosts(pageNumber)
+    .finally(() => toggleSpinner(false));
     if(pageNumber === 9){
         nextBtn.style.display = "none";
-    }
+    }   
+   
 })
 
+// prevous button for people api
 prevBtn.addEventListener('click', ()=>{
     pageNumber--;
-    getAllPosts(pageNumber);
+    getAllPosts(pageNumber)
+    .finally(() => toggleSpinner(false));
 })
 
-// Ships events
+// Ships button event
 
 shipsBtn.addEventListener('click', ()=>{
     result.style.display = "none";
-    resultPeople.style.display = "none";   // voa
+    resultPeople.style.display = "none";   
     tableShips.style.display = "block";
-    getShipsApi(1);
+    getShipsApi(1)
 })
+
+// ship next button event
 shipsNextBtn.addEventListener('click',()=>{
     shipsNumber++;
     shipsPrevBtn.style.display = "block";
@@ -135,6 +155,8 @@ shipsNextBtn.addEventListener('click',()=>{
     }
 
 })
+
+// ship prevous button event
 shipsPrevBtn.addEventListener('click',()=>{
     shipsNumber--;
     getShipsApi(shipsNumber)
